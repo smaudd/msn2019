@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" [hidden]="isHome">
+      <ion-back-button defaultHref="/home" (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="addContact">
+      <ion-button (click)="openContactSearchModal()">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>

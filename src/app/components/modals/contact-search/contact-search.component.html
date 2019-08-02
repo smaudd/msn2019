@@ -1,0 +1,44 @@
+<app-header [title]="title" [addContact]="false"></app-header>
+ 
+<ion-content>
+  <ion-grid>
+      <ion-item-divider>
+        <ion-label>Search other users and add them to your contact's list!</ion-label>
+      </ion-item-divider>
+      <div *ngIf="contacts$ | async as contacts; else onHold">
+        <ion-item-group *ngIf="contacts.length === 0; else list">
+          <ion-list-header>User not found</ion-list-header>
+        </ion-item-group>
+        <ng-template #list>
+          <ion-item 
+            *ngFor="let contact of contacts" 
+            lines="none"
+            detail="true"
+            detailIcon="add-circle-outline"
+            button="true"
+          >
+          {{ contact.nickname }}
+          </ion-item>
+        </ng-template>
+      </div>
+      <ng-template #onHold>
+        <span *ngIf="search.value === ''; else loader"></span>
+        <ng-template #loader>
+          <app-spinner
+            [label]="loaderLabel"
+          ></app-spinner>
+        </ng-template>
+      </ng-template>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-input 
+      autofocus
+      placeholder="Find Contacts" 
+      [formControl]="search"
+    ></ion-input>
+  </ion-grid>
+</ion-footer>
+

@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+  <div *ngFor="let field of builder.fields | keyvalue">
+    <ion-label>{{ field.value.label | titlecase }}</ion-label>
+    <ion-input 
+      [formControlName]="field.key"
+      type="{{ field.value.type }}"
+      [ngClass]="!form.get(field.key).valid && form.get(field.key).touched ? 'invalid' : null"
+    ></ion-input>
+  </div>
+  <div *ngFor="let button of builder.buttons | keyvalue">
+    <ion-button
+      type="button"
+      [disabled]="!form.valid"
+      (click)="button.value.action(form.value)"
+    >{{ button.value.label }}
+    </ion-button>
+  </div>
+</form>
