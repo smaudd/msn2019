@@ -9,3 +9,64 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
+
+
+* {
+    font-family: 'Libre Franklin', sans-serif;
+    color: #666FB0;
+}
+
+ion-grid {
+    min-height: 100%;
+    background-image: linear-gradient(#F9FAFC, #D2E2F1);
+    color: #666FB0;
+}
+
+ion-label {
+    font-weight: 700;
+    --color: #666FB0;
+}
+
+ion-col {
+    --ion-grid-column-padding: 0;
+}
+
+ion-input {
+    --padding-end: 5px;
+    --padding-start: 5px;
+    --background: #FFF !important;
+    border: 1px solid #D2E2F1;
+    margin-right: 15px;
+}
+
+ion-button {
+    --background: lightgray;
+    --color: #666FB0;
+    --background: #D2E2F1;
+    border-radius: 1;
+}
+
+ion-content, ion-toolbar, ion-footer {
+    --background: linear-gradient(#F9FAFC, #D2E2F1);
+}
+
+ion-list-header, ion-list, ion-item-group {
+    .list-md {
+        background: transparent !important;
+    }
+    --background: transparent !important;
+}
+
+ion-modal {
+    --max-height: 100vh;
+    --max-width: 80vw;
+    --min-width: 70vw;
+    --min-height: 70vh;
+}
+
+ion-item {
+    --background: transparent;
+    --padding-start: 20px;
+    --padding-end: 20px;
+}

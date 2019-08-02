@@ -1,0 +1,33 @@
+ion-list {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+.left {
+    align-self: flex-start;
+}
+
+.right {
+    align-self: flex-end;
+}
+
+.center {
+    align-self: center;
+    color: gray;
+}
+
+ion-textarea {
+    --padding-top: 0;
+    --padding-bottom: 0;
+    padding-top: 5px;
+}
+
+ion-textarea:nth-child(1) {
+    padding-top: 5px;
+}
+
+ion-col {
+    --ion-grid-column-padding: 0;
+}

@@ -1,0 +1,27 @@
+<app-header [title]="title" [isHome]="true"></app-header>
+<ion-content>
+  <ion-grid class="background">
+    <ion-row justify-content-center>
+      <ion-img [src]="logo"></ion-img>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Hello!
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus sapien consequat ipsum lacinia, nec fringilla nunc fringilla. Curabitur ac arcu quis eros convallis congue. Nulla viverra ac ligula et maximus. Cras enim lacus, convallis ac massa sit amet, iaculis laoreet lorem. Nunc ac consectetur sem. Nullam in odio eget.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-button (click)="openSignUpModal()">Sign Up</ion-button>
+      <ion-button (click)="openLogInModal()">Log In</ion-button>
+      <ion-button (click)="clearStorage()">Clear</ion-button>
+    </ion-row>
+  </ion-grid>
+</ion-content>

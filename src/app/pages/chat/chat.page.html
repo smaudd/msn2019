@@ -1,0 +1,40 @@
+<ion-content>
+    <ion-list *ngFor="let message of socketService.stream$ | async">
+        <app-bubble 
+        [message]="message.msg" 
+        [nickname]="message.nickname"
+        [background]="message.nickname !== nickname$.value ? null : 'self'"
+        [ngClass]="message.nickname !== nickname$.value ? 'left' : 'right'"
+        ></app-bubble>
+    </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+
+      <ion-col>
+
+        <form 
+        [formGroup]="form"
+        class="msg-box" 
+        (ngSubmit)="sendMessage(form.value.message)" 
+        >
+            <ion-textarea 
+            placeholder="Your message" 
+            formControlName="message"
+            ></ion-textarea>
+            <ion-button 
+            type="submit" 
+            fill="clear"
+            [disabled]="!form.valid"
+            >
+              <ion-icon name="send"></ion-icon>
+            </ion-button>
+        </form>
+
+      </ion-col>
+    </ion-row>
+
+
+  </ion-grid>
+</ion-footer>
