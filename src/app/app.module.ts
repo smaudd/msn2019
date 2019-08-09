@@ -12,12 +12,17 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { IonicStorageModule } from '@ionic/storage'
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { NotificationsService } from './services/notifications.service';
+
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     IonicStorageModule.forRoot(),
     HttpClientModule
@@ -25,6 +30,10 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
   providers: [
     StatusBar,
     SplashScreen,
+    LocalNotifications,
+    BackgroundMode,
+    OneSignal,
+    NotificationsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

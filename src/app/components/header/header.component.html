@@ -3,9 +3,23 @@
     <ion-buttons slot="start" [hidden]="isHome">
       <ion-back-button defaultHref="/home" (click)="dismiss()"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end" *ngIf="addContact">
-      <ion-button (click)="openContactSearchModal()">
-        <ion-icon name="person-add"></ion-icon>
+    <ion-buttons slot="end">
+      <ion-button 
+        *ngIf="addContact"
+        (click)="openContactSearchModal()"
+      >
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
+      <ion-button 
+        *ngIf="notificationsIcon"
+        (click)="openNotificationsModal()"
+      >
+        <div *ngIf="notificationsService.notifications$ | async as notifications">
+          <div *ngIf="notifications.length > 0">
+            <ion-badge color="warning">{{ notifications.length }}</ion-badge>
+          </div>
+        </div>
+        <ion-icon name="notifications"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>

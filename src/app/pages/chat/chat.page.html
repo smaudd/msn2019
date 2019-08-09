@@ -1,12 +1,23 @@
+<app-header
+  [title]="with"
+></app-header>
 <ion-content>
-    <ion-list *ngFor="let message of socketService.stream$ | async">
-        <app-bubble 
-        [message]="message.msg" 
-        [nickname]="message.nickname"
-        [background]="message.nickname !== nickname$.value ? null : 'self'"
-        [ngClass]="message.nickname !== nickname$.value ? 'left' : 'right'"
-        ></app-bubble>
-    </ion-list>
+    <div *ngIf="socketService.chat$ | async as messages">
+      <div *ngIf="messages.length === 0; else bubbles">
+        Start sending messages to {{ with }}!
+      </div>
+      <ng-template #bubbles>
+        <div class="chat-area">
+          <app-bubble 
+          *ngFor="let message of messages"
+          [message]="message.body" 
+          [nickname]="message.from.nickname"
+          [ngClass]="message.from.nickname !== nickname ? 'left' : 'right'"
+          >
+          </app-bubble>
+        </div>
+      </ng-template>
+    </div>
 </ion-content>
 <ion-footer>
   <ion-grid>

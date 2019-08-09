@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from '../../services/socket.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform, AlertController } from '@ionic/angular';
 import { SignComponent } from 'src/app/components/modals/sign/sign.component';
 import { LoginComponent } from 'src/app/components/modals/login/login.component';
 import { FormControl, Validators } from '@angular/forms';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-home',
@@ -20,17 +21,33 @@ export class HomePage implements OnInit {
   constructor(
     private socketService: SocketService,
     private storageService: StorageService,
-    public modalController: ModalController
-  ) { }
+    public modalController: ModalController,
+    private localNotifications: LocalNotifications,
+    private platform: Platform,
+    public alertCtlr: AlertController
+  ) { 
+    this.platform.ready().then(() => {
+      this.localNotifications.on('trigger').subscribe(res => {
+        this.showAlert();
+      });
+      this.localNotifications.on('click').subscribe(res => {
+        this.showAlert();
+      });
+    })
+  }
+
+  showAlert() {
+    this.alertCtlr.create({
+      header: 'HOLA',
+      message: 'HAS RECIBIDO?',
+      buttons: ['Ok']
+    }).then(alert => alert.present());
+  }
 
   ngOnInit() {
   }
 
-  joinChat() {
-    this.socketService.connect()
-    this.socketService.emit('newUser', { nickname: this.nickname })
-    this.storageService.set('nickname', this.nickname)
-  }
+
 
   async openSignUpModal() {
     const modal = await this.modalController.create({

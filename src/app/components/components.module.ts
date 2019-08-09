@@ -10,6 +10,8 @@ import { LoginComponent } from './modals/login/login.component';
 import { ContactSearchComponent } from './modals/contact-search/contact-search.component';
 import { FormComponent } from './form/form.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SendInvitationComponent } from './popovers/send-invitation/send-invitation.component';
+import { NotificationsComponent } from './modals/notifications/notifications.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
     LoginComponent,
     ContactSearchComponent,
     FormComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SendInvitationComponent,
+    NotificationsComponent
   ],
   exports: [
     BubbleComponent, 
@@ -34,12 +38,16 @@ import { SpinnerComponent } from './spinner/spinner.component';
     LoginComponent,
     ContactSearchComponent,
     FormComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SendInvitationComponent,
+    NotificationsComponent
   ],
   entryComponents: [
     SignComponent, 
     LoginComponent,
     ContactSearchComponent,
+    SendInvitationComponent,
+    NotificationsComponent
   ]
 })
 export class ComponentsModule {}

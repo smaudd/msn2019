@@ -1,5 +1,8 @@
 export class Message {
-    msg: string
-    from: string
-    to: string
+    body: string;
+    from: {
+        nickname: string,
+        _id: string
+    };
+    createdAt: string;
 }

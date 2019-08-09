@@ -1,0 +1,35 @@
+<app-header [title]="title"></app-header>
+
+<ion-content>
+  <ion-grid>
+      <div *ngIf="notificationsService.notifications$ | async as notifications">
+          <ion-item-group *ngIf="notifications.length === 0; else list">
+            <ion-list-header>You don't have any notifications</ion-list-header>
+          </ion-item-group>
+          <ng-template #list>
+            <ion-card *ngFor="let notification of notifications"> 
+                  <ion-card-content>
+                      <!-- <ion-avatar slot="start">
+                        <img src="{{ href.baseUrl }}/public/avatars/default.png">
+                      </ion-avatar> -->
+                    <ion-label>{{ notification.payload.body }}</ion-label>
+                    <!-- <ion-label>{{ notification.payload.additionalData.date.toLocalString() }}</ion-label> -->
+                    <ion-segment *ngIf="notification.payload.additionalData.code === 38">
+                      <ion-segment-button (click)="accept(notification)">
+                        <ion-label>Accept</ion-label>
+                      </ion-segment-button>
+                      <ion-segment-button (click)="deny(notification)">
+                        <ion-label>Deny</ion-label>
+                      </ion-segment-button>
+                    </ion-segment>
+                    <ion-segment *ngIf="notification.payload.additionalData.code === 31 || notification.payload.additionalData.code === 33">
+                      <ion-segment-button (click)="resolve(notification)">
+                        <ion-label>Accept</ion-label>
+                      </ion-segment-button>
+                    </ion-segment>
+                  </ion-card-content>
+            </ion-card>
+          </ng-template>
+      </div>
+  </ion-grid>
+</ion-content>

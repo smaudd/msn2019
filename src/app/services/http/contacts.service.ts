@@ -1,37 +1,68 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import config from '../../../config'
-import { Observable, pipe, of } from 'rxjs';
-
-import { ContactsResponse, ContactsField } from 'src/app/model/contactsResponse.model';
-import { tap, map } from 'rxjs/operators';
+import config from '../../../config';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Contact } from 'src/app/model/contact.model';
-import { LoadingService } from '../loading.service';
+import { StorageService } from '../storage.service';
+import { mergeMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsService {
 
+  contacts$ = new BehaviorSubject([]);
+
   constructor(
     private http: HttpClient,
-    public loadingService: LoadingService
-  ) { }
-
-  read(): Observable<ContactsField[]> {
-    return this.http.get<ContactsResponse>(config.baseUrl + '/contacts/read')
+    public storageService: StorageService
+  ) {
+    this.storageService.storageNotifier$
       .pipe(
-        map((res: ContactsResponse) => {
-          if (res) {
-            return res.contacts
+        mergeMap(notification => {
+          if (notification.updatedOn === 'contacts') {
+            this.setContacts(notification.value);
+            return of(null);
           }
-          return []
+          return this.storageService.get('contacts');
         })
       )
+      .subscribe(contacts => {
+        if (contacts) {
+          this.setContacts(contacts);
+        }
+      });
+  }
+
+  setContacts(value: Contact[]): void {
+    this.contacts$.next(value);
   }
 
   find(nickname: string): Observable<Contact[]> {
-    return this.http.get<Contact[]>(`${config.baseUrl}/contacts/find?nickname=${nickname}`)
+    return this.http.get<Contact[]>(`${config.baseUrl}/contacts/find?nickname=${nickname}`);
   }
+
+  add(nickname: string): Observable<Contact[]> {
+    return this.http.post<any>(`${config.baseUrl}/contacts/add`, { nickname })
+      .pipe(
+        tap(response => {
+          this.storageService.pushContact(response.contact);
+        })
+      );
+  }
+
+  accept(contactId: string): Observable<any> {
+    return this.http.post<any>(`${config.baseUrl}/contacts/accept`, { contactId })
+      .pipe(
+        tap(response => {
+          this.storageService.pushContact(response);
+        })
+      );
+  }
+
+  deny(contactId: string): Observable<any> {
+    return this.http.post<any>(`${config.baseUrl}/contacts/deny`, { contactId });
+  }
+
 
 }

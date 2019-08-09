@@ -1,8 +1,12 @@
-ion-list {
+.chat-area {
     display: flex;
     flex-flow: column;
     justify-content: center;
     padding: 10px;
+}
+
+.chat-area > * {
+    margin: 10px;
 }
 
 .left {
@@ -25,7 +29,7 @@ ion-textarea {
 }
 
 ion-textarea:nth-child(1) {
-    padding-top: 5px;
+    // padding-top: 5px;
 }
 
 ion-col {

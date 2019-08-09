@@ -48,7 +48,17 @@ ion-button {
 }
 
 ion-content, ion-toolbar, ion-footer {
-    --background: linear-gradient(#F9FAFC, #D2E2F1);
+    --background: linear-gradient(#F9FAFC, #D2E2F1) !important;
+    background: linear-gradient(#F9FAFC, #D2E2F1) !important;
+
+}
+
+ion-searchbar {
+    --icon-color: #666FB0 !important;
+}
+
+.searchbar-input {
+    box-shadow: none !important;
 }
 
 ion-list-header, ion-list, ion-item-group {
@@ -69,4 +79,28 @@ ion-item {
     --background: transparent;
     --padding-start: 20px;
     --padding-end: 20px;
+}
+
+ion-segment-button {
+    // --indicator-color: #666FB0 !important;
+    --indicator-color-checked: #666FB0 !important;
+}
+
+.popover {
+    --width: 90%;
+}
+
+ion-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 10px;
+}
+
+#badge-button {
+    position: relative;
+    width: 42px;
+    top:1px;
+    right: 1px;
+    overflow: visible!important;
 }

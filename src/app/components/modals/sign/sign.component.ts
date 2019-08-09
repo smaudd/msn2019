@@ -6,6 +6,9 @@ import { AuthenticationService } from 'src/app/services/http/authentication.serv
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert.service';
+import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { ContactsService } from 'src/app/services/http/contacts.service';
 
 @Component({
   selector: 'app-sign',
@@ -14,7 +17,7 @@ import { AlertService } from 'src/app/services/alert.service';
 })
 export class SignComponent implements OnInit {
 
-  title: string = 'Sign Up'
+  title = 'Sign Up';
   signUpForm = {
     fields: {
       nickname: { type: 'text', label: 'Nickname' },
@@ -23,48 +26,55 @@ export class SignComponent implements OnInit {
       rpassword: { type: 'password', label: 'Repeat Password' }
     },
     buttons: {
-      signup: { 
+      signup: {
         label: 'Sign Up',
         action: (form: any) => this.doSignUp(form)
       }
     }
-  }
+  };
 
   constructor(
     private http: AuthenticationService,
     public storageService: StorageService,
     private router: Router,
     public modalController: ModalController,
-    public alertService: AlertService
+    public alertService: AlertService,
   ) { }
 
   ngOnInit() {
   }
 
-  doSignUp(form: SignUpForm) {
-    this.http.signUp(form)
-      .subscribe(response => {
-        this.storageService.set('token', response.token)
-        this.router.navigate(['/dashboard/chats'])
-        this.dismiss()
+  doSignUp(signUpForm: SignUpForm) {
+    this.http.signUp(signUpForm)
+      .pipe(
+        map(response => {
+          this.storageService.set('contacts', response.contacts);
+          this.storageService.set('token', response.token);
+          this.storageService.set('user', { _id: response._id, nickname: response.nickname });
+          return response;
+        })
+      ).subscribe(_ => {
+        this.router.navigate(['/navigation']);
+        this.dismiss();
       },
       error => {
         if (error.status === 409) {
-            const alertInfo = {
-              header: 'Try Again',
-              subheader: 'Credentials already in use',
-              message: error.error.msg,
-              buttons: ['OK']
-            }
-            this.alertService.presentAlert(alertInfo)
-          }
-      })
+          const alertInfo = {
+            header: 'Try Again',
+            subheader: 'Credentials already in use',
+            message: error.error.msg,
+            buttons: ['OK']
+          };
+          this.alertService.presentAlert(alertInfo);
+        }
+      }
+    );
   }
 
   dismiss() {
     this.modalController.dismiss({
-      'dismissed': true
-    })
+      dismissed: true
+    });
   }
 
 }

@@ -1,0 +1,39 @@
+<app-header 
+  [title]="title" 
+  [isHome]="true"
+  [addContact]="true"
+  [notificationsIcon]="true"
+></app-header>
+<ion-content>
+    <ion-grid>
+      <div *ngIf="contacts$ | async as contacts">
+        <ion-item-group *ngIf="contacts.length === 0; else list">
+          <ion-list-header>You don't have any contacts</ion-list-header>
+        </ion-item-group>
+        <ng-template #list>
+            <ion-item 
+              *ngFor="let contact of contacts"
+              lines="none"
+              (click)="contact.status ? openChat(contact) : null"
+              detail="{{ contact.status }}" 
+            >
+              <ion-avatar slot="start">
+                <img src="{{ href.baseUrl }}/public/avatars/default.png">
+              </ion-avatar>
+              <ion-label [ngClass]="contact.status ? '' : 'not-accepted'">
+                {{ contact.nickname }}
+              </ion-label>
+              <ion-note 
+                *ngIf="!contact.status"
+                slot="end"
+              >
+                Not accepted yet
+              </ion-note>
+            </ion-item>
+        </ng-template>
+      </div>
+      <ion-button (click)="clear()">CLEAR</ion-button>
+      <ion-button (click)="sendNoti()">SEND NOTI</ion-button>
+
+    </ion-grid>
+</ion-content>

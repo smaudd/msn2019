@@ -2,9 +2,13 @@
  
 <ion-content>
   <ion-grid>
-      <ion-item-divider>
-        <ion-label>Search other users and add them to your contact's list!</ion-label>
-      </ion-item-divider>
+      <ion-card>
+        
+          Search other users and send them an invitation to be part of your contacts.
+     
+            You'll not be able to chat with them until they accept your invitation.
+  
+      </ion-card>
       <div *ngIf="contacts$ | async as contacts; else onHold">
         <ion-item-group *ngIf="contacts.length === 0; else list">
           <ion-list-header>User not found</ion-list-header>
@@ -14,8 +18,9 @@
             *ngFor="let contact of contacts" 
             lines="none"
             detail="true"
-            detailIcon="add-circle-outline"
+            detailIcon="{{ contact.local ? 'open' : 'add-circle-outline' }}"
             button="true"
+            (click)="contact.local ? openChat(contact) : openPopover(contact)"
           >
           {{ contact.nickname }}
           </ion-item>
@@ -33,12 +38,9 @@
 </ion-content>
 
 <ion-footer>
-  <ion-grid>
-    <ion-input 
-      autofocus
-      placeholder="Find Contacts" 
-      [formControl]="search"
-    ></ion-input>
-  </ion-grid>
+  <ion-searchbar
+    searchIcon="person"
+    [formControl]="search"
+  ></ion-searchbar>
 </ion-footer>
 
